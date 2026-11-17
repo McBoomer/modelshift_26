@@ -1,0 +1,21 @@
+# Week 1 experiment config. See docs/WEEK1.md.
+# Model names are "provider:model", e.g. "openai:<model-id>" or "anthropic:<model-id>".
+
+# Hard cap on live API spend for the week (enforced by the cost tracker).
+budget_usd: 30
+
+# Pair A = same provider (older -> newer). Pair B = cross-provider.
+# source_models[i] migrates to target_models[i].
+source_models:
+  - TODO  # pair A source
+  - TODO  # pair B source
+
+target_models:
+  - TODO  # pair A target (same provider as pair A source)
+  - TODO  # pair B target (different provider from pair B source)
+
+# Model that proposes repaired prompts and generates benchmark inputs.
+optimizer_model: TODO
+
+# Model that judges free-text equivalence (Day 3).
+judge_model: TODO
