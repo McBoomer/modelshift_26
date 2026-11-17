@@ -46,6 +46,8 @@ class LLMResponse:
     text: str = ""
     tool_calls: list[dict] = field(default_factory=list)  # [{"name": str, "arguments": dict}]
     latency_ms: float = 0.0
+    input_tokens: int | None = None
+    output_tokens: int | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)

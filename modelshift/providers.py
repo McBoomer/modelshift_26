@@ -53,7 +53,13 @@ class OpenAIProvider(Provider):
             except json.JSONDecodeError:
                 args = {"_raw": tc.function.arguments}
             calls.append({"name": tc.function.name, "arguments": args})
-        return LLMResponse(text=msg.content or "", tool_calls=calls)
+        usage = getattr(r, "usage", None)
+        return LLMResponse(
+            text=msg.content or "",
+            tool_calls=calls,
+            input_tokens=getattr(usage, "prompt_tokens", None),
+            output_tokens=getattr(usage, "completion_tokens", None),
+        )
 
 
 def openai_tool_to_anthropic(tool: dict) -> dict:
@@ -96,7 +102,13 @@ class AnthropicProvider(Provider):
         r = self.client.messages.create(**kwargs)
         text = "".join(getattr(b, "text", "") for b in r.content if b.type == "text")
         calls = [{"name": b.name, "arguments": dict(b.input)} for b in r.content if b.type == "tool_use"]
-        return LLMResponse(text=text, tool_calls=calls)
+        usage = getattr(r, "usage", None)
+        return LLMResponse(
+            text=text,
+            tool_calls=calls,
+            input_tokens=getattr(usage, "input_tokens", None),
+            output_tokens=getattr(usage, "output_tokens", None),
+        )
 
 
 def get_provider(name: str) -> Provider:
