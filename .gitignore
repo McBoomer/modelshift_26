@@ -5,3 +5,4 @@ __pycache__/
 modelshift_demo/
 .venv/
 .ruff_cache/
+.cache/
